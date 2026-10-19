@@ -1,0 +1,1 @@
+Listing photos matched the unit we used, the pack size matched, and the store showed a Philippine address on the listing page.

@@ -1,0 +1,53 @@
+---
+import StatusChip from './StatusChip.astro';
+import { formatDate } from '../lib/format';
+import {
+  VERDICT_LABEL_TEXT,
+  categoryKey,
+  type Review,
+  type VerdictLabel,
+} from '../lib/reviews';
+
+interface Props {
+  review: Review;
+  headingLevel?: 2 | 3;
+}
+
+const { review, headingLevel = 2 } = Astro.props;
+const { title, brand, category, verdictLabel, reviewedAt, image, imageAlt } = review.data;
+
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
+
+const chipVariant: Record<VerdictLabel, 'good' | 'warn' | 'neutral'> = {
+  'worth-it': 'good',
+  mixed: 'warn',
+  'skip-it': 'neutral',
+};
+---
+
+<a
+  class="panel block overflow-hidden no-underline transition-colors duration-150 hover:border-accent"
+  href={`/reviews/${review.id}/`}
+  data-review-card
+  data-category={categoryKey(category)}
+>
+  <span class="ratio ratio-hero">
+    <img
+      src={image}
+      alt={imageAlt}
+      width="1600"
+      height="1200"
+      loading="lazy"
+      decoding="async"
+    />
+  </span>
+
+  <span class="mt-4 block">
+    <StatusChip variant={chipVariant[verdictLabel]} label={VERDICT_LABEL_TEXT[verdictLabel]} />
+
+    <Heading class="t-h3 mt-3 mb-0 text-ink">{title}</Heading>
+
+    <span class="t-meta mt-2 block">{brand ? `${brand} · ` : ''}{category}</span>
+    <span class="t-meta mt-1 block">Reviewed {formatDate(reviewedAt)}</span>
+  </span>
+</a>

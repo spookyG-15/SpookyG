@@ -1,0 +1,91 @@
+---
+import StatusChip from './StatusChip.astro';
+import { formatDate } from '../lib/format';
+import { isSellerCheckStale } from '../lib/affiliate';
+import { SELLER_STATUS_TEXT, type SellerStatus, type Review } from '../lib/reviews';
+
+interface Props {
+  review: Review;
+}
+
+const { review } = Astro.props;
+const { sellerName, sellerUrl, sellerCheckedAt, sellerStatus, sellerNotes } = review.data;
+
+const chipVariant: Record<SellerStatus, 'good' | 'warn' | 'neutral'> = {
+  'looks-ok': 'good',
+  caution: 'warn',
+  'not-checked': 'neutral',
+};
+
+const isStale = isSellerCheckStale(sellerCheckedAt);
+---
+
+<section aria-labelledby="seller-check-heading" class="panel mt-10">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <h2 id="seller-check-heading" class="t-h3 m-0">Seller check</h2>
+    <StatusChip variant={chipVariant[sellerStatus]} label={SELLER_STATUS_TEXT[sellerStatus]} />
+  </div>
+
+  <dl class="m-0 mt-4 grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-[minmax(8rem,auto)_1fr]">
+    <dt class="text-[15px] font-semibold text-ink">Store</dt>
+    <dd class="m-0 text-[15px] text-ink-soft">
+      {
+        sellerUrl ? (
+          <a class="link" href={sellerUrl} rel="noopener" target="_blank">
+            {sellerName}
+            <span class="sr-only"> (opens in a new tab)</span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              aria-hidden="true"
+              focusable="false"
+              class="inline-block align-baseline"
+            >
+              <path d="M7 4h9v9M16 4 5 15" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        ) : (
+          sellerName
+        )
+      }
+    </dd>
+
+    <dt class="text-[15px] font-semibold text-ink">Checked</dt>
+    <dd class="m-0 text-[15px] text-ink-soft">{formatDate(sellerCheckedAt)}</dd>
+
+    <dt class="text-[15px] font-semibold text-ink">Notes</dt>
+    <dd class="m-0 text-[15px] text-ink-soft">{sellerNotes}</dd>
+  </dl>
+
+  {
+    isStale && (
+      <p class="m-0 mt-4 text-[14px] text-ink-soft">
+        We haven't re-checked this store in a while. Treat these notes as an old snapshot.
+      </p>
+    )
+  }
+
+  <p class="m-0 mt-4 flex gap-2 rounded-md bg-bg-soft p-3 text-[14px] leading-snug text-ink">
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      aria-hidden="true"
+      focusable="false"
+      class="mt-0.5 shrink-0 text-warn"
+    >
+      <path d="M10 3.2 18 17H2L10 3.2Z" stroke-linejoin="round" />
+      <path d="M10 8v4M10 14.4v.1" stroke-linecap="round" />
+    </svg>
+    <span>
+      A seller check is what we saw on that date. It is not proof of authenticity.
+    </span>
+  </p>
+</section>

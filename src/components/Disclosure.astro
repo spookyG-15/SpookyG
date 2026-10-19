@@ -1,0 +1,14 @@
+---
+interface Props {
+  text: string;
+  href?: string;
+}
+
+const { text, href = '/affiliate-disclosure/' } = Astro.props;
+---
+
+<p class="m-0 mt-3 text-[14px] leading-snug text-ink-soft">
+  {text}
+  {' '}
+  <a class="link" href={href}>Details</a>
+</p>

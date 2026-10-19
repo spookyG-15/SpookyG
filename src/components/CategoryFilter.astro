@@ -1,0 +1,29 @@
+---
+import { categoryKey } from '../lib/reviews';
+
+interface Props {
+  categories: string[];
+  active: string | null;
+}
+
+const { categories, active } = Astro.props;
+---
+
+<div class="mt-6 flex flex-wrap gap-2" role="group" aria-label="Filter reviews by category">
+  <button type="button" class="chip" data-category-filter="all" data-category-chip aria-pressed={active === null}>
+    All
+  </button>
+  {
+    categories.map((category) => (
+      <button
+        type="button"
+        class="chip"
+        data-category-filter={categoryKey(category)}
+        data-category-chip
+        aria-pressed={active === categoryKey(category)}
+      >
+        {category}
+      </button>
+    ))
+  }
+</div>

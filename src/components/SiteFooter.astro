@@ -1,0 +1,81 @@
+---
+import Mascot from './Mascot.astro';
+
+interface Props {
+  siteName: string;
+  contactEmail: string;
+  tiktokProfileUrl?: string;
+}
+
+const { siteName, contactEmail, tiktokProfileUrl } = Astro.props;
+
+const year = new Date().getUTCFullYear();
+
+const links = [
+  { href: '/reviews/', label: 'All reviews' },
+  { href: '/about/', label: 'About' },
+  { href: '/affiliate-disclosure/', label: 'Affiliate disclosure' },
+];
+---
+
+<footer class="mt-20 border-t border-line bg-bg-soft">
+  <div class="page py-12">
+    <p class="m-0 max-w-[70ch] text-[15px] text-ink-soft">
+      We may earn a commission if you buy through a link on this site. You pay no extra.
+      Read the <a class="link" href="/affiliate-disclosure/">affiliate disclosure</a>.
+    </p>
+
+    <nav aria-label="Footer" class="mt-8">
+      <ul class="m-0 flex list-none flex-wrap gap-x-6 gap-y-2 p-0">
+        {
+          links.map((link) => (
+            <li>
+              <a class="inline-flex min-h-11 items-center font-semibold text-ink" href={link.href}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a class="inline-flex min-h-11 items-center font-semibold text-ink" href={`mailto:${contactEmail}`}>
+            {contactEmail}
+          </a>
+        </li>
+        {
+          tiktokProfileUrl && (
+            <li>
+              <a
+                class="inline-flex min-h-11 items-center gap-1 font-semibold text-ink"
+                href={tiktokProfileUrl}
+                rel="noopener"
+                target="_blank"
+              >
+                TikTok profile
+                <span class="sr-only">(opens in a new tab)</span>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M7 4h9v9M16 4 5 15" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            </li>
+          )
+        }
+      </ul>
+    </nav>
+
+    <div class="mt-8 flex items-center gap-3 border-t border-line pt-6">
+      <Mascot variant="head" size={20} alt="" class="opacity-60" />
+      <p class="m-0 text-[13px] text-ink-soft">
+        © {year} {siteName}. An independent site, not affiliated with TikTok.
+      </p>
+    </div>
+  </div>
+</footer>

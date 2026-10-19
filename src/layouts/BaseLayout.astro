@@ -1,0 +1,41 @@
+---
+import '../styles/global.css';
+import SeoHead from '../components/SeoHead.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { getSite } from '../lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const { title, description, image, noindex = false } = Astro.props;
+
+const site = await getSite();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#f2f1f6" />
+    <SeoHead title={title} description={description} image={image} noindex={noindex} />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <SiteHeader siteName={site.siteName} />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <SiteFooter
+      siteName={site.siteName}
+      contactEmail={site.contactEmail}
+      tiktokProfileUrl={site.tiktokProfileUrl}
+    />
+  </body>
+</html>

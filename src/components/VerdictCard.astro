@@ -1,0 +1,27 @@
+---
+import StatusChip from './StatusChip.astro';
+import type { AffiliateState } from '../lib/affiliate';
+import { VERDICT_LABEL_TEXT, type Review, type VerdictLabel } from '../lib/reviews';
+
+interface Props {
+  review: Review;
+  affiliateState: AffiliateState;
+}
+
+const { review } = Astro.props;
+
+const { verdictLabel, verdict } = review.data;
+
+const chipVariant: Record<VerdictLabel, 'good' | 'warn' | 'neutral'> = {
+  'worth-it': 'good',
+  mixed: 'warn',
+  'skip-it': 'neutral',
+};
+---
+
+<section aria-labelledby="verdict-heading" class="panel mt-8">
+  <h2 id="verdict-heading" class="sr-only">Our verdict</h2>
+  <StatusChip variant={chipVariant[verdictLabel]} label={VERDICT_LABEL_TEXT[verdictLabel]} />
+  <p class="t-h3 mt-4 mb-0 text-balance text-ink">{verdict}</p>
+  <slot />
+</section>

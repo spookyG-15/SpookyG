@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Mascot from '../components/Mascot.astro';
+import { getSite } from '../lib/site';
+import { renderMarkdown } from '../lib/markdown';
+
+const site = await getSite();
+const about = renderMarkdown(site.about);
+---
+
+<BaseLayout
+  title={`About — ${site.siteName}`}
+  description="Who Spooky-G is, how reviews are written, what a seller check does and does not prove, and how to reach us. Independent and not affiliated with TikTok."
+  image={site.ogImage}
+>
+  <div class="page pt-8 md:pt-12">
+    <section class="hero-panel p-6 text-center md:p-10">
+      <Mascot variant="full" size={220} class="mx-auto" />
+      <h1 class="t-h1 mt-6 mb-0">About {site.siteName}</h1>
+      <p class="mt-3 mb-0 text-[18px] text-ink-soft">{site.tagline}</p>
+    </section>
+
+    <div class="t-prose mx-auto mt-12" set:html={about} />
+
+    <section aria-labelledby="contact-heading" class="panel mx-auto mt-10 max-w-[68ch]">
+      <h2 id="contact-heading" class="t-h3 m-0">Contact</h2>
+      <p class="mt-3 mb-0 text-ink">
+        <a class="link" href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
+      </p>
+      <p class="mt-3 mb-0 text-[14px] text-ink-soft">
+        This site sets no cookies, runs no analytics, and collects nothing about you.
+      </p>
+    </section>
+
+    <p class="mt-10 text-center">
+      <a class="link" href="/affiliate-disclosure/">How links and commissions work</a>
+    </p>
+  </div>
+</BaseLayout>

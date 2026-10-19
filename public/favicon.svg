@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Spooky-G">
+  <rect width="64" height="64" rx="14" fill="#1b1e27" />
+  <path
+    d="M32 9c-9.94 0-18 7.66-18 17.1V52c0 1.7 1.9 2.7 3.24 1.7l4.41-3.24 4.41 3.24a2.34 2.34 0 0 0 2.88 0l3.06-2.25 3.06 2.25a2.34 2.34 0 0 0 2.88 0l4.41-3.24 4.41 3.24C48.1 54.7 50 53.7 50 52V26.1C50 16.66 41.94 9 32 9Z"
+    fill="#ffffff"
+  />
+  <rect x="16" y="25" width="13.5" height="10" rx="4.5" fill="#1b1e27" />
+  <rect x="34.5" y="25" width="13.5" height="10" rx="4.5" fill="#1b1e27" />
+  <path d="M29.5 28h5" stroke="#1b1e27" stroke-width="2.2" stroke-linecap="round" />
+</svg>

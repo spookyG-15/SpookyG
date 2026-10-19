@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSite } from '../lib/site';
+
+const site = await getSite();
+---
+
+<BaseLayout
+  title={`Affiliate disclosure — ${site.siteName}`}
+  description="How Spooky-G earns money: some links are TikTok Shop affiliate links and may pay a commission at no extra cost to you. Reviews are never sponsored and links are never shortened."
+  image={site.ogImage}
+>
+  <div class="page pt-8 md:pt-12">
+    <header class="max-w-[65ch]">
+      <h1 class="t-h1 m-0">Affiliate disclosure</h1>
+    </header>
+
+    <div class="t-prose mt-8">
+      <p>
+        Some links on this site are TikTok Shop affiliate links. If you buy something after
+        clicking one of them, we may get a small commission from TikTok. It comes out of the
+        commission, not out of your pocket.
+      </p>
+
+      <p>{site.defaultDisclosure}</p>
+
+      <p>
+        A commission never buys a good review. Products are reviewed on their own merits, paid
+        reviews are never accepted, and a seller paying us changes nothing we write.
+      </p>
+
+      <p>
+        Links are the official links copied straight from TikTok Shop. We never shorten them,
+        wrap them, or send them through a redirector, so you can always see where you are going.
+      </p>
+
+      <p>
+        Affiliate links expire. Every review shows the date a link was added, and when a link
+        gets old or has expired we say so on the page instead of hiding it.
+      </p>
+
+      <p>
+        Prices change constantly, so we do not print them anywhere. Check the listing for the
+        current price, seller, and shipping terms.
+      </p>
+
+      <p>
+        {site.siteName} is an independent site. It is not affiliated with, endorsed by, or
+        sponsored by TikTok, and no TikTok logo or trademark is used here.
+      </p>
+    </div>
+
+    <p class="mt-10">
+      <a class="btn btn-secondary" href="/reviews/">Back to the reviews</a>
+    </p>
+  </div>
+</BaseLayout>

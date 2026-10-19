@@ -1,0 +1,24 @@
+---
+interface Props {
+  variant: 'good' | 'warn' | 'neutral' | 'accent';
+  label: string;
+}
+
+const { variant, label } = Astro.props;
+
+const styles = {
+  good: 'bg-good-soft text-good',
+  warn: 'bg-warn-soft text-warn',
+  neutral: 'bg-bg-soft text-ink-soft',
+  accent: 'bg-accent-soft text-accent',
+} as const;
+---
+
+<span
+  class:list={[
+    'inline-flex items-center gap-1.5 rounded-pill px-3 py-1 text-[13px] font-bold whitespace-nowrap',
+    styles[variant],
+  ]}
+>
+  {label}
+</span>

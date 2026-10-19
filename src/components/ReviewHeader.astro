@@ -1,0 +1,56 @@
+---
+import StatusChip from './StatusChip.astro';
+import { formatDate } from '../lib/format';
+import { BASIS_LABEL_TEXT, type Review, type ReviewBasis } from '../lib/reviews';
+
+interface Props {
+  review: Review;
+}
+
+const { review } = Astro.props;
+const { title, brand, category, reviewedFrom, reviewedAt, image, imageAlt } = review.data;
+
+const basisVariant: Record<ReviewBasis, 'accent' | 'neutral'> = {
+  'hands-on': 'accent',
+  research: 'neutral',
+};
+---
+
+<header>
+  <div class="ratio ratio-hero overflow-hidden rounded-lg">
+    <img
+      src={image}
+      alt={imageAlt}
+      width="1600"
+      height="1200"
+      loading="eager"
+      decoding="async"
+    />
+  </div>
+
+  <h1 class="t-h1 mt-6 mb-0 text-ink">{title}</h1>
+
+  <div class="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
+    <StatusChip variant={basisVariant[reviewedFrom]} label={BASIS_LABEL_TEXT[reviewedFrom]} />
+    <p class="t-meta m-0 flex items-center gap-1.5">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <rect x="3" y="5" width="14" height="12" rx="2.5" />
+        <path d="M7 3v4M13 3v4M3 9.5h14" stroke-linecap="round" />
+      </svg>
+      Reviewed {formatDate(reviewedAt)}
+    </p>
+  </div>
+
+  <p class="t-meta mt-2 mb-0">
+    {brand ? `${brand} · ` : ''}{category}
+  </p>
+</header>

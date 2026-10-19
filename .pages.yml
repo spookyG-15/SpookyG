@@ -1,0 +1,238 @@
+media:
+  - name: product_images
+    label: Product photos
+    input: public/images/reviews
+    output: /images/reviews
+    rename: safe
+    extensions: [jpg, jpeg, png, webp]
+  - name: site_images
+    label: Site images
+    input: public/images/site
+    output: /images/site
+    rename: safe
+    extensions: [png, jpg, jpeg, webp]
+
+content:
+  - name: reviews
+    label: Reviews
+    type: collection
+    path: src/content/reviews
+    format: md
+    filename:
+      template: "{fields.slug}.md"
+      field: false
+    operations:
+      rename: false
+      delete: true
+    view:
+      primary: title
+      sort: reviewedAt
+      order: desc
+    fields:
+      - name: title
+        type: string
+        label: Title
+        required: true
+        options:
+          minlength: 3
+          maxlength: 80
+      - name: slug
+        type: string
+        label: Slug
+        required: true
+        pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        options:
+          minlength: 3
+          maxlength: 80
+      - name: brand
+        type: string
+        label: Brand
+      - name: category
+        type: select
+        label: Category
+        required: true
+        options:
+          values:
+            - { name: "Home & Kitchen", label: "Home & Kitchen" }
+            - { name: "Beauty & Personal Care", label: "Beauty & Personal Care" }
+            - { name: "Phone & Gadgets", label: "Phone & Gadgets" }
+            - { name: "Fashion & Accessories", label: "Fashion & Accessories" }
+            - { name: "Health & Wellness", label: "Health & Wellness" }
+      - name: reviewedFrom
+        type: select
+        label: Review basis
+        required: true
+        options:
+          values:
+            - { name: "hands-on", label: "Hands-on tested" }
+            - { name: "research", label: "Research-based" }
+      - name: verdictLabel
+        type: select
+        label: Verdict
+        required: true
+        options:
+          values:
+            - { name: "worth-it", label: "Worth it" }
+            - { name: "mixed", label: "Mixed" }
+            - { name: "skip-it", label: "Skip it" }
+      - name: verdict
+        type: text
+        label: One-line verdict
+        required: true
+      - name: pros
+        type: string
+        label: Pros
+        list: true
+        required: true
+      - name: cons
+        type: string
+        label: Cons
+        list: true
+        required: true
+      - name: image
+        type: image
+        label: Hero photo
+        required: true
+        options:
+          media: product_images
+      - name: imageAlt
+        type: string
+        label: Hero photo alt text
+        required: true
+      - name: gallery
+        type: object
+        label: Extra photos
+        list: true
+        fields:
+          - name: image
+            type: image
+            label: Photo
+            options:
+              media: product_images
+          - name: alt
+            type: string
+            label: Alt text
+            required: true
+      - name: specs
+        type: object
+        label: Specs
+        list: true
+        fields:
+          - name: label
+            type: string
+            label: Label
+            required: true
+          - name: value
+            type: string
+            label: Value
+            required: true
+      - name: reviewedAt
+        type: date
+        label: Reviewed on
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: sellerName
+        type: string
+        label: Store name
+        required: true
+      - name: sellerUrl
+        type: string
+        label: Store listing link
+      - name: sellerCheckedAt
+        type: date
+        label: Store checked on
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: sellerStatus
+        type: select
+        label: Seller status
+        default: "looks-ok"
+        options:
+          values:
+            - { name: "looks-ok", label: "Looks ok" }
+            - { name: "caution", label: "Caution" }
+            - { name: "not-checked", label: "Not checked" }
+      - name: sellerNotes
+        type: text
+        label: What we observed
+        required: true
+      - name: affiliateUrl
+        type: string
+        label: Product link
+        options:
+          multiline: false
+      - name: affiliateAddedAt
+        type: date
+        label: Link generated on
+        options:
+          format: yyyy-MM-dd
+      - name: tiktokVideoUrl
+        type: string
+        label: Source video link
+      - name: draft
+        type: boolean
+        label: Draft
+        default: true
+      - name: body
+        type: rich-text
+        label: The review
+        required: true
+        options:
+          format: markdown
+          media: false
+  - name: site
+    label: Site settings
+    type: file
+    path: src/data/site.yml
+    format: yaml
+    operations:
+      delete: false
+    fields:
+      - name: settings
+        label: Settings
+        type: object
+        fields:
+          - name: siteName
+            type: string
+            label: Site name
+            required: true
+          - name: tagline
+            type: string
+            label: Tagline
+            required: true
+          - name: brandIntro
+            type: text
+            label: Brand intro
+            required: true
+          - name: about
+            type: rich-text
+            label: About page
+            required: true
+            options:
+              format: markdown
+              media: false
+          - name: contactEmail
+            type: string
+            label: Contact email
+            required: true
+          - name: tiktokProfileUrl
+            type: string
+            label: Profile link
+          - name: defaultDisclosure
+            type: text
+            label: Default disclosure
+            required: true
+          - name: mascotImage
+            type: image
+            label: Mascot image
+            required: true
+            options:
+              media: site_images
+          - name: ogImage
+            type: image
+            label: Social preview image
+            required: true
+            options:
+              media: site_images

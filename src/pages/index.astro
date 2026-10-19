@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Mascot from '../components/Mascot.astro';
+import ReviewCard from '../components/ReviewCard.astro';
+import { getSite } from '../lib/site';
+import { getPublishedReviews } from '../lib/reviews';
+
+const site = await getSite();
+const reviews = (await getPublishedReviews()).slice(0, 6);
+---
+
+<BaseLayout
+  title={`${site.siteName} — ${site.tagline}`}
+  description="Independent, plain-language product reviews for TikTok Shop shoppers in the Philippines. Find the exact item, read the honest verdict, and check the seller before you buy."
+  image={site.ogImage}
+>
+  <div class="page pt-8 md:pt-12">
+    <section class="hero-panel p-6 md:p-10" aria-labelledby="hero-heading">
+      <div class="flex flex-col items-start gap-6 md:flex-row md:items-center md:gap-10">
+        <Mascot variant="full" size={200} class="md:shrink-0" />
+
+        <div class="md:flex-1">
+          <h1 id="hero-heading" class="t-h1 m-0 text-ink">
+            just a kewl ghost reviewing TikTok finds.
+          </h1>
+          <p class="mt-4 mb-0 text-[18px] text-ink-soft md:text-[20px]">{site.tagline}</p>
+          <a class="btn btn-primary mt-6" href="/reviews/">Browse reviews</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-12 max-w-[70ch]" aria-labelledby="intro-heading">
+      <h2 id="intro-heading" class="sr-only">What Spooky-G does</h2>
+      <p class="m-0 text-[17px] text-ink-soft">{site.brandIntro}</p>
+    </section>
+
+    <section class="mt-16" aria-labelledby="latest-heading">
+      <div class="flex flex-wrap items-baseline justify-between gap-2">
+        <h2 id="latest-heading" class="t-h2 m-0">Latest reviews</h2>
+        <a class="link" href="/reviews/">See all reviews</a>
+      </div>
+
+      {
+        reviews.length > 0 ? (
+          <div class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {reviews.map((review) => (
+              <ReviewCard review={review} headingLevel={3} />
+            ))}
+          </div>
+        ) : (
+          <div class="panel mt-6">
+            <p class="m-0 text-ink">No reviews here yet. Check back soon, boo.</p>
+          </div>
+        )
+      }
+    </section>
+
+    <section class="panel mt-16 flex flex-wrap items-center justify-between gap-4" aria-label="Affiliate disclosure">
+      <p class="m-0 max-w-[60ch] text-[15px] text-ink-soft">
+        We may earn a commission if you buy through a link on this site. You pay no extra. Reviews
+        are never sponsored.
+      </p>
+      <a class="btn btn-secondary" href="/affiliate-disclosure/">Read the disclosure</a>
+    </section>
+  </div>
+</BaseLayout>

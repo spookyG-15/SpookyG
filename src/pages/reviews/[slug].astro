@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReviewHeader from '../../components/ReviewHeader.astro';
+import VerdictCard from '../../components/VerdictCard.astro';
+import AffiliateCta from '../../components/AffiliateCta.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import SpecList from '../../components/SpecList.astro';
+import ReviewBody from '../../components/ReviewBody.astro';
+import SellerCheck from '../../components/SellerCheck.astro';
+import { getAffiliate } from '../../lib/affiliate';
+import { truncate } from '../../lib/format';
+import { getPublishedReviews, type Review } from '../../lib/reviews';
+import { getSite } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const reviews = await getPublishedReviews();
+  return reviews.map((review) => ({
+    params: { slug: review.id },
+    props: { review },
+  }));
+}
+
+interface Props {
+  review: Review;
+}
+
+const { review } = Astro.props;
+const site = await getSite();
+
+const affiliate = getAffiliate(review);
+const description = truncate(`${review.data.verdict} ${review.data.imageAlt}`, 155);
+
+const { brand, category, sellerName, specs, gallery } = review.data;
+
+const exactItem = [
+  ...(brand === undefined ? [] : [{ label: 'Brand', value: brand }]),
+  { label: 'Category', value: category },
+  { label: 'Store', value: sellerName },
+  ...(specs ?? []),
+];
+---
+
+<BaseLayout
+  title={`${review.data.title} — ${site.siteName}`}
+  description={description}
+  image={review.data.image}
+>
+  <article class="page pt-8 md:pt-12">
+    <ReviewHeader review={review} />
+
+    <VerdictCard review={review} affiliateState={affiliate.state}>
+      <AffiliateCta state={affiliate.state} url={affiliate.url} addedAt={affiliate.addedAt} />
+    </VerdictCard>
+
+    <section aria-labelledby="exact-item-heading" class="mt-10">
+      <h2 id="exact-item-heading" class="t-h3 m-0 mb-4">The exact item</h2>
+      <SpecList specs={exactItem} />
+    </section>
+
+    <ProsCons pros={review.data.pros} cons={review.data.cons} />
+
+    <section aria-labelledby="review-heading" class="mt-10">
+      <h2 id="review-heading" class="t-h3 m-0 mb-4">The review</h2>
+      <ReviewBody body={review} />
+    </section>
+
+    <SellerCheck review={review} />
+
+    {
+      gallery !== undefined && gallery.length > 0 && (
+        <section aria-labelledby="gallery-heading" class="mt-10">
+          <h2 id="gallery-heading" class="t-h3 m-0 mb-4">
+            More photos
+          </h2>
+          <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+            {gallery.map((item) => (
+              <span class="ratio ratio-square overflow-hidden rounded-lg">
+                <img
+                  src={item.image}
+                  alt={item.alt}
+                  width="800"
+                  height="800"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </article>
+</BaseLayout>

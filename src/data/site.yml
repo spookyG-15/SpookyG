@@ -1,0 +1,57 @@
+settings:
+  siteName: Spooky-G
+  tagline: No fluff. Just assurance. Boo ~
+  brandIntro: >-
+    Spooky-G checks the exact item behind a TikTok find, says plainly whether it is
+    worth it, and shows which store was checked and when. No ratings, no scores, no
+    guessing.
+  about: |
+    ## What we do
+
+    Spooky-G is a small, independent review site for people buying on TikTok Shop in
+    the Philippines. When a product shows up in a video or a shop, it is usually hard
+    to tell whether the listing you are looking at is the same item, sold by the same
+    store, at a price worth paying.
+
+    We look at the exact item: brand, variant, pack size, and the store it came from.
+    Then we say plainly whether we think it is worth it.
+
+    ## How we review
+
+    Every review states how it was made, and the badge is always visible:
+
+    - **Hands-on tested** — someone used the item and wrote about what happened.
+    - **Research-based** — the review comes from specifications, listings, and
+      documented sources rather than personal use.
+
+    We never present research as experience.
+
+    ## Seller checks
+
+    For every review we record the store name, the date we checked it, and what we
+    actually saw: whether the photos matched, whether the variant matched, whether the
+    store listed a Philippine address.
+
+    A seller check is what we saw on that date. It is not proof of authenticity, and it
+    is never a guarantee. Stores change, and listings get copied.
+
+    ## Prices and links
+
+    We do not show prices. They change constantly and any number we wrote would be
+    wrong within days. Affiliate links are dated on every review, and when a link gets
+    old or expires we say so instead of hiding it.
+
+    ## Privacy
+
+    This site sets no cookies, runs no analytics, and collects nothing about you. There
+    is no account, no sign-up, and no comment box.
+
+    ## Contact
+
+    Questions, corrections, or a seller that changed since we last checked it — write
+    to us. We would rather fix a review than leave it up.
+  contactEmail: hello@spooky-g.example
+  defaultDisclosure: >-
+    We may earn a commission if you buy through this link. You pay no extra.
+  mascotImage: /images/site/mascot.png
+  ogImage: /images/site/og-image.png

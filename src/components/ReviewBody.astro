@@ -1,0 +1,16 @@
+---
+import { render } from 'astro:content';
+import type { Review } from '../lib/reviews';
+
+interface Props {
+  body: Review;
+}
+
+const { body } = Astro.props;
+
+const { Content } = await render(body);
+---
+
+<div class="t-prose">
+  <Content />
+</div>

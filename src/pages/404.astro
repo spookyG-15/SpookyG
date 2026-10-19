@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Mascot from '../components/Mascot.astro';
+import StatusChip from '../components/StatusChip.astro';
+import { getSite } from '../lib/site';
+import { getPublishedReviews, VERDICT_LABEL_TEXT, type VerdictLabel } from '../lib/reviews';
+
+const site = await getSite();
+const latest = (await getPublishedReviews()).slice(0, 3);
+
+const chipVariant: Record<VerdictLabel, 'good' | 'warn' | 'neutral'> = {
+  'worth-it': 'good',
+  mixed: 'warn',
+  'skip-it': 'neutral',
+};
+---
+
+<BaseLayout
+  title={`Page not found — ${site.siteName}`}
+  description="This page does not exist. Browse the latest Spooky-G reviews instead."
+  noindex={true}
+>
+  <div class="page py-16 text-center md:py-24">
+    <Mascot variant="head" size={96} alt="" class="mx-auto" />
+
+    <h1 class="t-h1 mt-6 mb-0">This page ghosted out.</h1>
+    <p class="mx-auto mt-3 mb-0 max-w-[50ch] text-[17px] text-ink-soft">
+      The link may be old or mistyped. Nothing is broken on your side.
+    </p>
+
+    <a class="btn btn-primary mt-8" href="/reviews/">Browse reviews</a>
+
+    {
+      latest.length > 0 && (
+        <section aria-labelledby="latest-heading" class="mx-auto mt-16 max-w-[60ch] text-left">
+          <h2 id="latest-heading" class="t-overline m-0 mb-4">
+            Latest reviews
+          </h2>
+          <ul class="m-0 list-none space-y-3 p-0">
+            {latest.map((review) => (
+              <li class="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <a class="link font-semibold" href={`/reviews/${review.id}/`}>
+                  {review.data.title}
+                </a>
+                <StatusChip
+                  variant={chipVariant[review.data.verdictLabel]}
+                  label={VERDICT_LABEL_TEXT[review.data.verdictLabel]}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <p class="mt-12">
+      <a class="link" href="/">Go to the homepage</a>
+    </p>
+  </div>
+</BaseLayout>

@@ -1,0 +1,22 @@
+{
+  "name": "spooky-g",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "check": "astro check",
+    "build": "astro check && astro build && node scripts/check-images.mjs",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.0",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.16.0",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "typescript": "^5.9.3"
+  }
+}
